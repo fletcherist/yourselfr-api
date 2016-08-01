@@ -35,6 +35,7 @@ var userSchema = new mongoose.Schema({
 		time: Date
 	},
 	vkID: {type: String, default: '0'},
+	twitterID: {type: String, default: '0'},
 	ban: {
 		status: {type: Boolean, default: false},
 		reason: {type: String, deafult: ""}

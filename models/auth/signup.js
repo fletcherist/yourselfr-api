@@ -5,6 +5,8 @@ var bCrypt = require('bcrypt-nodejs')
 
 var config = require('../../../config')
 
+const generateRandomAlias = require('../api/preferences/alias').generateRandomAlias
+
 module.exports = new LocalStrategy({
 	passReqToCallback : true // allows us to pass back the entire request to the callback
 },
@@ -26,7 +28,7 @@ function(req, username, password, done) {
 	}
 	var alias = username.toLowerCase()
 	if(!goodAlias(alias)){
-		alias = 'id' + Math.floor(Math.random() * 1000000000).toString()
+		alias = generateRandomAlias()
 	}
 
 	// find a user in mongo with provided username

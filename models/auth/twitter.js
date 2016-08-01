@@ -1,45 +1,48 @@
-var mongoose = require('mongoose');
-var User = mongoose.model('users');
-var TwitterStrategy = require('passport-twitter').Strategy;
-var bCrypt = require('bcrypt-nodejs');
-var vkPhotos = require('../vk/vkPhotos');
+var mongoose = require('mongoose')
+var Users = mongoose.model('users')
+var TwitterStrategy = require('passport-twitter').Strategy
+var bCrypt = require('bcrypt-nodejs')
+var passport = require('passport')
 
+var config = require('../../../config')
 
-const TWITTER_CONSUMER_KEY = '';
-const TWITTER_CONSUMER_SECRET = '';
+const isFreeAlias = require('../api/preferences/alias').isFreeAlias
+const generateRandomAlias = require('../api/preferences/alias').generateRandomAlias
 
-passport.use(new TwitterStrategy({
-    consumerKey: TWITTER_CONSUMER_KEY,
-    consumerSecret: TWITTER_CONSUMER_SECRET,
-    callbackURL: "http://127.0.0.1:3000/auth/twitter/callback"
+module.exports = new TwitterStrategy({
+	consumerKey: config.twitterToken.consumer,
+	consumerSecret: config.twitterToken.apiSecret,
+	callbackURL: "http://localhost/auth/twitter/callback"
   },
-  function(token, tokenSecret, profile, cb) {
-    
-  	console.log(profile);
-    // User.findOne({ vkID: profile.id }, function (err, user) {
-    // 	if(user){
-    // 		console.log(user);
-    // 		return done(null, user);
-    // 	} else {
-    // 		newUser = new User();
+  function(token, tokenSecret, profile, done) {
+		Users.findOne({ twitterID: profile.id }, function (err, user) {
+			if(user){
+				console.log(user)
+				return done(null, user)
+			} else {
+				var newUser = new Users()
 
-    // 		newUser.username = profile.displayName;
-    // 		newUser.alias = profile.username;
-    // 		newUser.social.vk = profile.profileUrl;
-    // 		newUser.photo = profile.photos[0].value;
-    // 		newUser.vkID = profile.id;
+				let alias = profile.username
+				if (!isFreeAlias(alias)) {
+					alias = generateRandomAlias(alias)
+				}
 
-    // 		newUser.save(function(err, user) {
-    // 			if (err){
-    // 				console.log('Error in Saving user: '+err);
-    // 				throw err;
-    // 			}
+				newUser.username = profile.displayName
+				newUser.alias = alias
+				newUser.twitterID = profile.id
+				newUser.photo = profile.photos[0].value,
+				newUser.social.twitter = profile.username
 
-    // 			vkPhotos.setVKPhoto(user._id);
-    // 			console.log(newUser.username + ' Registration succesful');
-    // 			return done(null, newUser);
-    // 		});
-    // 	}
-    // });
+				newUser.save(function(err, user) {
+					if (err){
+						console.log('Error in Saving user: '+err)
+						throw err
+					}
+
+					console.log(newUser.username + ' Registration succesful')
+					return done(null, newUser)
+				})
+			}
+		})
   }
-));
+)
