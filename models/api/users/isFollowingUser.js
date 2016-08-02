@@ -1,3 +1,6 @@
+var mongoose = require('mongoose')
+var Subscriptions = mongoose.model('subscriptions')
+
 const isFollowingUser = (authenticated, userid, userids) => {
 	return new Promise((resolve, reject) => {
 		// Get subscription status
