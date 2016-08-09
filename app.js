@@ -1,21 +1,24 @@
-var express = require('express'),
-	fs = require('fs'),
-	path = require('path'),
-	mongojs = require('mongojs'),
-	mongoose = require('mongoose'),
-	cookieParser = require('cookie-parser'),
-	bodyParser = require('body-parser'),
-	passport = require('passport'),
-	flash = require('connect-flash'),
-	compression = require('compression')
+const express = require('express')
+const fs = require('fs')
+const path = require('path')
+const mongojs = require('mongojs')
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+const passport = require('passport')
+const compression = require('compression')
+const config = require('../config')
 
 mongoose.connect('mongodb://localhost/database')
 require("./models/models.js")
-
-var app = express()
+require('./models/passport-init')(passport)
 
 var session = require('express-session')
 var MongoStore = require('connect-mongo')(session)
+
+const app = express()
+
+const http = require('http').Server(app)
+const io = require('socket.io')(http)
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
@@ -34,23 +37,22 @@ app.use(session({
 }))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(cookieParser())
+app.use(require('cookie-parser')())
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(flash())
+app.use(require('connect-flash')())
 app.use(compression({level: 9}))
 
-var api = require('./routes/api'),
-	ui  = require('./routes/ui'),
-	authenticate = require('./routes/authenticate')(passport),
-	upload = require('./models/upload')
+const api = require('./routes/api')
+const ui  = require('./routes/ui')
+const authenticate = require('./routes/authenticate')(passport)
+const upload = require('./models/upload')
+const socket = require('./models/api/classSocket')
 
-var port = 80
-var initPassport = require('./models/passport-init')
-initPassport(passport)
+io.on('connection', socket)
 
-app.listen(port, () => {
-	console.log("Server is running on port "+ port)
+http.listen(config.port, () => {
+	console.log("Server is running on port "+ config.port)
 })
 
 app.use('/upload', express.static(__dirname +'/upload'))

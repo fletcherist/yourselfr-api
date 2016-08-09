@@ -37,9 +37,9 @@
     "vksdk": "latest"
   },
   "devDependencies": {
-    "gulp-concat": "latest",
     "connect-flash": "latest",
     "gulp": "latest",
+    "gulp-concat": "latest",
     "gulp-concat-css": "latest",
     "gulp-connect": "latest",
     "gulp-livereload": "latest",
@@ -50,7 +50,9 @@
     "gulp-ssh": "latest",
     "gulp-stylus": "latest",
     "gulp-uglify": "latest",
+    "mocha": "^3.0.2",
     "nib": "latest",
-    "stylus": "latest"
+    "stylus": "latest",
+    "supertest": "^2.0.0"
   }
 }

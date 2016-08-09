@@ -59,6 +59,7 @@ module.exports.getVKUserByAlias = (alias) => {
 				return false;
 			}
 			return resolve(_o);
+			console.log(`[getVKUserByAlias] ${_o}`)
 		});
 	});
 }
