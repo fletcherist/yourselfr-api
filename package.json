@@ -37,6 +37,7 @@
     "vksdk": "latest"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "connect-flash": "latest",
     "gulp": "latest",
     "gulp-concat": "latest",
@@ -52,7 +53,9 @@
     "gulp-uglify": "latest",
     "mocha": "^3.0.2",
     "nib": "latest",
+    "should": "^10.0.0",
     "stylus": "latest",
-    "supertest": "^2.0.0"
+    "supertest": "^2.0.0",
+    "supertest-as-promised": "^3.2.0"
   }
 }

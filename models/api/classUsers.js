@@ -23,15 +23,17 @@ const getMyself = require('./users/getMyself')
 const authenticate = require('./users/authenticate')
 
 const getFinePeople = require('./users/getFinePeople')
-
-
 const getFriends = require('./users/getFriends')
+
+const onlineManager = require('./users/onlineManager')
+
 router.get('/friends', authenticate, getFriends)
 
 const isFreeAlias = require('./users/isFreeAlias')
+
 router.get('/isfree/:alias', isFreeAlias)
 
-router.use('/', function(req, res){
+router.all('/', function(req, res){
 	res.send({message: 'Welcome to the Users api'})
 });
 
@@ -42,7 +44,7 @@ router.get('/:alias', getUser, function(req, res){
 	} else {
 		res.send(req.getUser);
 	}
-});
+})
 
 const findMe = require('./users/findMe')
 router.post('/findme', findMe)
