@@ -12,7 +12,10 @@ function getPosts(req, res, next){
 	}
 	var type  = req.params.type
 	var offset = req.params.offset ? req.params.offset : 0
-	var limit = req.limit || 25
+	offset = parseInt(offset)
+	var limit = parseInt(req.limit) || 25
+	console.log('alias ' + alias)
+	console.log('offset' + offset)
 
 	Users.findOne({alias: alias}, function(err, user){
 		if(!user) {
@@ -20,40 +23,41 @@ function getPosts(req, res, next){
 			next()
 		} else {
 			var user_id = user._id
+			console.log(offset)
 			Posts
 				.find({created_by: user_id, type: 1})
-				.sort({_id: -1})
 				.skip(offset)
 				.limit(limit)
+				.sort({_id: -1})
 				.lean()
 				.exec(function(err, posts){
-				var created_by_like = req.ip
-				if(created_by_like){
-					async.each(posts, function(post, callback){
-						Likes.findOne({object: post._id, created_by: created_by_like}, function(err, like){
-							if(like){
-								post.isLiked = true
-							} else {
-								post.isLiked = false
-							}
+					var created_by_like = req.ip
+					if(created_by_like){
+						async.each(posts, function(post, callback){
+							Likes.findOne({object: post._id, created_by: created_by_like}, function(err, like){
+								if(like){
+									post.isLiked = true
+								} else {
+									post.isLiked = false
+								}
 
-							req.params.post_id = post._id
-							getCommentsById(req, res, function(){
-								post.comments = req.comments
-								callback(null)
+								req.params.post_id = post._id
+								getCommentsById(req, res, function(){
+									post.comments = req.comments
+									callback(null)
+								})
 							})
+						}, function(err){
+							req.posts = posts
+							next()
 						})
-					}, function(err){
+					} else {
+						posts.forEach(function(post){
+							post.isLiked = false
+						})
 						req.posts = posts
 						next()
-					})
-				} else {
-					posts.forEach(function(post){
-						post.isLiked = false
-					})
-					req.posts = posts
-					next()
-				}
+					}
 			})
 		}
 	})

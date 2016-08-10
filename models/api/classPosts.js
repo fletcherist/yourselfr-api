@@ -71,6 +71,7 @@ router.get('/:alias', getPosts, function(req, res){
 	res.send(posts)
 });
 router.get('/:alias/(:offset)', getPosts, function(req, res){
+	console.log('i work')
 	var posts = req.posts
 	if (!posts) {
 		return res.send({status:0, error:1, message: 'There\'s no posts on this alias.'})
