@@ -18,7 +18,7 @@ function uploadPhoto (req, res) {
 
 		var regex = new RegExp(/^(.*)\./);
 		var filename = filename.toString().replace(regex, tools.randNumber(1000000000000000,9999999999999999999) + ".");
-		var path = 'app/upload/photo/'+ filename;
+		var path = 'upload/photo/'+ filename;
 
 		fstream = fs.createWriteStream(path);
 		file.pipe(fstream);

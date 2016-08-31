@@ -25,14 +25,14 @@ function uploadBackground (req, res) {
 		var regex = new RegExp(/^(.*)\./);
 		filename = filename.toString().replace(regex, hash + ".");
 		var filenameToWrite = hash + '.jpg';
-		
-		var path = 'app/upload/background/' + filename;
-		var pathToWrite = 'app/upload/background/' + filenameToWrite;
+
+		var path = 'upload/background/' + filename;
+		var pathToWrite = 'upload/background/' + filenameToWrite;
 
 		fstream = fs.createWriteStream(path);
 		file.pipe(fstream);
 		fstream.on('close', function () {
-			lwipTime(path, filename);		
+			lwipTime(path, filename);
 		});
 
 		var lwipTime = function(path, filename){

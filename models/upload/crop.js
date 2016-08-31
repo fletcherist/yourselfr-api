@@ -18,8 +18,8 @@ function cropBackground (filename) {
 			resolve(false);
 			return false;
 		}
-		var path = 'app/upload/background/'+ filename;
-		var savePath = 'app/upload/background_cropped/' + filename;
+		var path = 'upload/background/'+ filename;
+		var savePath = 'upload/background_cropped/' + filename;
 		lwip.open(path, function(err, image){
 			if (err) {
 				resolve(false);
@@ -41,9 +41,9 @@ function cropBackground (filename) {
 					resolve(false);
 					return false;
 				});
-			
+
 		});
-	});	
+	});
 }
 
 function makeLowQualityBlur (filename) {
@@ -70,9 +70,9 @@ function makeLowQualityBlur (filename) {
 					resolve(false);
 					return false;
 				});
-			
+
 		});
-	});	
+	});
 }
 
 const cropAllBackgrounds = async (() => {
@@ -84,7 +84,7 @@ const cropAllBackgrounds = async (() => {
 	items.forEach((item) => {
 		await (cropBackground(item));
 		await (Promise.delay(3000));
-	}) 	
+	})
 });
 
 module.exports.cropAllBackgrounds = cropAllBackgrounds;
