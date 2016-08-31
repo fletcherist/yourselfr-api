@@ -42,7 +42,9 @@
     "querystring": "latest",
     "randomstring": "latest",
     "vksdk": "latest",
-		"socket.io": "latest"
+		"socket.io": "latest",
+		"chai": "^3.5.0",
+    "connect-flash": "latest"
   },
   "devDependencies": {
     "chai": "^3.5.0",
