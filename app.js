@@ -69,8 +69,9 @@ const socket = require('./models/api/classSocket')
 
 io.on('connection', socket)
 
-http.listen(config.port, () => {
-	console.log("Server is running on port "+ config.port)
+const port = process.env.PORT || 80
+http.listen(port, () => {
+	console.log("Server is running on port "+ port)
 })
 
 app.use('/upload', express.static(__dirname +'/upload'))
