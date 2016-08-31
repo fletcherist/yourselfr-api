@@ -29,6 +29,7 @@ function uploadAvatar (req, res) {
 		var filename = filename.toString().replace(regex, hash + ".");
 
 		var path = __dirname + 'app/upload/avatar/'+ filename;
+		console.log('PATHAAA: ' + path)
 
 		fstream = fs.createWriteStream(path);
 		file.pipe(fstream);
