@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const compression = require('compression')
-const config = require('../config')
+const config = require('./config')
 const cors = require('cors')
 
 mongoose.connect('mongodb://test:test@ds029575.mlab.com:29575/heroku_k9s2xhfm')

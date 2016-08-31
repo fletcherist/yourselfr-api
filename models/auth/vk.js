@@ -4,7 +4,7 @@ var VKontakteStrategy = require('passport-vkontakte').Strategy
 var bCrypt = require('bcrypt-nodejs')
 var vkPhotos = require('../vk/vkPhotos')
 
-var config = require('../../../config')
+var config = require('../../config')
 
 const isFreeAlias = require('../api/preferences/alias').isFreeAlias
 const generateRandomAlias = require('../api/preferences/alias').generateRandomAlias

@@ -4,7 +4,7 @@ var TwitterStrategy = require('passport-twitter').Strategy
 var bCrypt = require('bcrypt-nodejs')
 var passport = require('passport')
 
-var config = require('../../../config')
+var config = require('../../config')
 
 const isFreeAlias = require('../api/preferences/alias').isFreeAlias
 const generateRandomAlias = require('../api/preferences/alias').generateRandomAlias

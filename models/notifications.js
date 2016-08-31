@@ -6,7 +6,7 @@ var Users = mongoose.model('users')
 var Subscriptions = mongoose.model('subscriptions')
 var Posts = mongoose.model('posts')
 
-var config = require('../../config')
+var config = require('../config')
 
 var transporter = nodemailer.createTransport({
     service: 'Gmail',

@@ -3,7 +3,7 @@ var User = mongoose.model('users')
 var LocalStrategy = require('passport-local').Strategy
 var bCrypt = require('bcrypt-nodejs')
 
-var config = require('../../../config')
+var config = require('../../config')
 
 const generateRandomAlias = require('../api/preferences/alias').generateRandomAlias
 
