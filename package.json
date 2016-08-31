@@ -41,7 +41,8 @@
     "pug": "latest",
     "querystring": "latest",
     "randomstring": "latest",
-    "vksdk": "latest"
+    "vksdk": "latest",
+		"socket.io": "latest"
   },
   "devDependencies": {
     "chai": "^3.5.0",
