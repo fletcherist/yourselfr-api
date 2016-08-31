@@ -6,3 +6,4 @@ const server = supertest.agent("http://localhost:80")
 let expect = chai.expect
 
 require('./users/getUser')
+require('./users/isFreeAlias')

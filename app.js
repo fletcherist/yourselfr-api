@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 const passport = require('passport')
 const compression = require('compression')
 const config = require('../config')
+const cors = require('cors')
 
 mongoose.connect('mongodb://localhost/database')
 require("./models/models.js")
@@ -20,16 +21,19 @@ const app = express()
 const http = require('http').Server(app)
 const io = require('socket.io')(http)
 
-app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type')
-    res.setHeader('Access-Control-Allow-Credentials', true)
-    next()
-})
+var whitelist = ['http://localhost:3000', 'http://yourselfr.herokuapp.com']
+var corsOptions = {
+  origin: function(origin, callback){
+    var originIsWhitelisted = whitelist.indexOf(origin) !== -1
+    callback(null, originIsWhitelisted)
+  },
+  credentials: true
+};
+
+app.use(cors(corsOptions))
 
 app.use(session({
-	secret: 'foo',
+	secret: 'asidhuidsahui32ue2378t7t8tt78t78',
 	resave: false,
 	saveUninitialized: true,
 	maxAge: new Date(Date.now() + 3600000),

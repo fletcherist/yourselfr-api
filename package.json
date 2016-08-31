@@ -1,10 +1,12 @@
 {
   "name": "Yourselfr",
   "version": "1.0.2",
-  "description": "Realtime news about you.",
+  "description": "API server for http://yoursel.fr",
   "main": "app.js",
   "man": "./man/doc.1",
-  "readme": "bla-bla-bla",
+  "scripts": {
+    "test": "mocha ./models/api/tests"
+  },
   "dependencies": {
     "async": "latest",
     "asyncawait": "latest",

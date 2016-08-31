@@ -14,7 +14,7 @@ module.exports = function(passport){
 
 	passport.serializeUser(function(user, done) {
 		console.log('serializing user:',user.username)
-		return done(null, user._id)
+		done(null, user._id)
 	})
 
 	passport.deserializeUser(function(id, done) {
@@ -22,7 +22,7 @@ module.exports = function(passport){
 			if (user && user.username) {
 				console.log('deserializing user:', user.username)
 			}
-			return done(err, user)
+			done(err, user)
 		})
 	})
 
