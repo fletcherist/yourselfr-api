@@ -28,8 +28,7 @@ function uploadAvatar (req, res) {
 		var hash = randomstring.generate();
 		var filename = filename.toString().replace(regex, hash + ".");
 
-		var path = __dirname + 'upload/avatar/'+ filename;
-		console.log('PATHAAA: ' + path)
+		var path = 'upload/avatar/'+ filename;
 
 		fstream = fs.createWriteStream(path);
 		file.pipe(fstream);
