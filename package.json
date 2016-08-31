@@ -9,7 +9,7 @@
     "test": "mocha ./models/api/tests"
   },
 	"engines": {
-    "node": ">=4.2.0",
+    "node": ">=6.1.0",
     "npm": "^3.0.0"
   },
   "dependencies": {
