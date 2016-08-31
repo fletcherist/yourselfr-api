@@ -28,7 +28,7 @@ function uploadAvatar (req, res) {
 		var hash = randomstring.generate();
 		var filename = filename.toString().replace(regex, hash + ".");
 
-		var path = 'app/upload/avatar/'+ filename;
+		var path = __dirname + 'app/upload/avatar/'+ filename;
 
 		fstream = fs.createWriteStream(path);
 		file.pipe(fstream);
@@ -90,7 +90,7 @@ function removeAvatar (req, res) {
 			user.save(() => {
 				return res.send({status:1, message:"Аватар удалён."});
 			});
-			
+
 		}
 	});
 }
