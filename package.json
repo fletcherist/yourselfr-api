@@ -5,6 +5,7 @@
   "main": "app.js",
   "man": "./man/doc.1",
   "scripts": {
+		"start": "node app.js",
     "test": "mocha ./models/api/tests"
   },
   "dependencies": {

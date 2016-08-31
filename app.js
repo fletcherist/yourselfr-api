@@ -9,7 +9,21 @@ const compression = require('compression')
 const config = require('../config')
 const cors = require('cors')
 
-mongoose.connect('mongodb://localhost/database')
+mongoose.connect('mongodb://test:test@ds029575.mlab.com:29575/heroku_k9s2xhfm')
+
+mongoose.connection.on('connected', function () {
+	console.log('Mongoose default connection open')
+});
+
+mongoose.connection.on('error',function (err) {
+	console.log('Mongoose default connection error: ' + err)
+})
+
+mongoose.connection.on('disconnected', function () {
+	console.log('Mongoose default connection disconnected')
+})
+
+
 require("./models/models.js")
 require('./models/passport-init')(passport)
 
