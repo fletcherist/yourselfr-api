@@ -22,7 +22,8 @@ const getVisitor = require('./users/getVisitor')
 const getMyself = require('./users/getMyself')
 const authenticate = require('./users/authenticate')
 
-const getFinePeople = require('./users/getFinePeople')
+// const getFinePeople = require('./users/getFinePeople')
+// console.log(getFinePeople)
 const getFriends = require('./users/getFriends')
 
 const onlineManager = require('./users/onlineManager')
@@ -57,6 +58,6 @@ module.exports.getVisitor   = getVisitor
 module.exports.getMyself    = getMyself
 
 module.exports.authenticate = authenticate
-module.exports.getFinePeople = getFinePeople
+// module.exports.getFinePeople = getFinePeople
 module.exports.getUserById = getUserById
 module.exports.isUserExist = isUserExist
