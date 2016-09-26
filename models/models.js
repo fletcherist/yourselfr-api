@@ -8,6 +8,7 @@ var userSchema = new mongoose.Schema({
 	about: String,
 	status: String,
 	photo: {type: String, default: 'http://yoursel.fr/upload/avatar/nophoto.png'},
+	photo_thumb: String,
 	absPathPhoto: {type: String, default: ''},
 	header: {type: String, default: 'noheader.png'},
 	background: String,

@@ -5,10 +5,10 @@
   "main": "app.js",
   "man": "./man/doc.1",
   "scripts": {
-		"start": "node app.js",
+    "start": "node app.js",
     "test": "mocha ./models/api/tests"
   },
-	"engines": {
+  "engines": {
     "node": ">=6.1.0",
     "npm": "^3.0.0"
   },
@@ -17,8 +17,11 @@
     "asyncawait": "latest",
     "bcrypt-nodejs": "latest",
     "body-parser": "latest",
+    "chai": "^3.5.0",
+    "cloudinary": "^1.4.1",
     "compression": "^1.6.2",
     "connect-busboy": "latest",
+    "connect-flash": "latest",
     "connect-mongo": "latest",
     "cookie-parser": "latest",
     "cors": "latest",
@@ -41,14 +44,18 @@
     "pug": "latest",
     "querystring": "latest",
     "randomstring": "latest",
-    "vksdk": "latest",
-		"socket.io": "latest",
-		"chai": "^3.5.0",
-    "connect-flash": "latest"
+    "socket.io": "latest",
+    "vksdk": "latest"
   },
   "devDependencies": {
+    "babel-eslint": "^6.1.2",
     "chai": "^3.5.0",
     "connect-flash": "latest",
+    "eslint": "^3.4.0",
+    "eslint-config-standard": "^6.0.0",
+    "eslint-plugin-babel": "^3.3.0",
+    "eslint-plugin-promise": "^2.0.1",
+    "eslint-plugin-standard": "^2.0.0",
     "gulp": "latest",
     "gulp-concat": "latest",
     "gulp-concat-css": "latest",

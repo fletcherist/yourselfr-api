@@ -1,107 +1,110 @@
-/*jshint esversion: 6 */
-var fs = require('fs');
-var busboy = require('connect-busboy');
-var lwip = require('lwip');
-var mongoose = require('mongoose');
-var Users = mongoose.model('users');
-var helpers = require('./helpers');
-var randomstring = require("randomstring");
-var tools = require('../tools');
+var fs = require('fs')
+var busboy = require('connect-busboy')
+var lwip = require('lwip')
+var mongoose = require('mongoose')
+var Users = mongoose.model('users')
+var helpers = require('./helpers')
+var randomstring = require("randomstring")
+var tools = require('../tools')
+
+const cloudinary = require('cloudinary')
+cloudinary.config({
+	cloud_name: 'houn4pnlm',
+	api_key: '731783814288342',
+	api_secret: 'YP_5DwpW4OdLfX5iEU7bjVdbnJc'
+})
+
 
 function uploadAvatar (req, res) {
-	console.log('[uploadAvatar]: Trying to upload avatar');
+	console.log('[uploadAvatar]: Trying to upload avatar')
 	if(!req.isAuthenticated()){
 		return res.send({
 			error: 1,
 			status: 0,
 			message: 'Authentication required for uploading'
-		});
+		})
 	}
-	var fstream;
-	req.pipe(req.busboy);
+	var fstream
+	req.pipe(req.busboy)
 	req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
 		if(!helpers.isValidImage(mimetype)){
-			return res.send({error:1, message:'image is not valid'});
+			return res.send({error:1, message:'image is not valid'})
 		}
 
-		var regex = new RegExp(/^(.*)\./);
-		var hash = randomstring.generate();
-		var filename = filename.toString().replace(regex, hash + ".");
-
-		var path = 'upload/avatar/'+ filename;
-
-		fstream = fs.createWriteStream(path);
-		file.pipe(fstream);
-		fstream.on('close', function () {
-			lwipTime(path, filename);
-		});
-
-		var lwipTime = function(path, filename){
-			lwip.open(path, function(err, image){
-				if(err) return false;
-
-				var _imageProps = {
-					width: image.width(),
-					height: image.height()
-				};
-				var cropProp = _imageProps.width > _imageProps.height ? _imageProps.height : _imageProps.width;
-
-
-				image.batch()
-					.crop(cropProp,cropProp)
-					.scale(0.75)
-					.writeFile(path, 'jpg', {quality: 90} ,function(err){
-						if(err) throw err;
-					});
-			});
-			finish();
-		};
-
-		var finish = function(){
+		const params = {
+			width: 350,
+			height: 350,
+			crop: 'fill',
+			gravity: 'face',
+			format: 'jpg',
+			quality: 'auto',
+			flags: 'progressive',
+			eager: {
+				crop: "fill",
+				width: 100,
+				height: 100,
+				gravity: 'face',
+				quality: 'auto',
+				format: 'jpg',
+				flags: "progressive",
+			}
+		}
+		const handleUpload = result => {
+			console.log(result)
 			Users.findById(req.session.passport.user, function(err, user){
-				user.photo = 'http://yourselfr.com/upload/avatar/'+filename;
-				console.log(user);
-				user.save();
+				if (!result || !result.url || !result.eager || !result.eager[0]) {
+					res.send({
+						error: 1,
+						status: 0,
+						message: 'Error while uploading. Try later..'
+					})
+				}
+				user.photo = result.url
+				user.photo_thumb = result.eager[0].url
 
-				// res.redirect('/preferences');
-				res.send({
-					error: 0,
-					status: 1,
-					message: "Ваш аватар был успешно загружен!",
-					src: user.photo
-				});
+				user.save(() => {
+					console.log(user.photo, user.photo_thumb)
+					res.send({
+						error: 0,
+						status: 1,
+						message: "Ваш аватар был успешно загружен!",
+						src: user.photo
+					})
+				})
+			})
+		}
 
-			});
-		};
-	});
+		const stream = cloudinary.uploader.upload_stream(handleUpload, params)
+		file.pipe(stream)
+	})
 }
 
 
 function removeAvatar (req, res) {
 	if(!req.isAuthenticated()){
-		console.log('[removeAvatar] authentication required');
-		return res.send({status: 0, message: 'Authentication required for uploading'});
+		console.log('[removeAvatar] authentication required')
+		return res.send({status: 0, message: 'Authentication required for uploading'})
 	}
 	Users.findById(req.session.passport.user, function(err, user){
-		if(err) throw err;
+		if(err) throw err
 		if(user){
-			console.log('[removeAvatar] successfully removed');
-			user.photo = getDefaultAvatar();
+			console.log('[removeAvatar] successfully removed')
+			user.photo = getDefaultAvatar()
 			user.save(() => {
-				return res.send({status:1, message:"Аватар удалён."});
-			});
+				return res.send({status:1, message:"Аватар удалён."})
+			})
 
 		}
-	});
+	})
 }
 
 const getDefaultAvatar = () => {
-	var url = 'http://yourselfr.com/upload/default-avatar/';
-	var rand = tools.randNumber(1, 12);
-	var avatar = url + rand + '.jpg';
-	return avatar;
-};
+	var url = 'http://yourselfr.com/upload/default-avatar/'
+	var rand = tools.randNumber(1, 12)
+	var avatar = url + rand + '.jpg'
+	return avatar
+}
 
-module.exports.uploadAvatar = uploadAvatar;
-module.exports.removeAvatar = removeAvatar;
-module.exports.getDefaultAvatar = getDefaultAvatar;
+module.exports.uploadAvatar = uploadAvatar
+module.exports.removeAvatar = removeAvatar
+module.exports.getDefaultAvatar = getDefaultAvatar
