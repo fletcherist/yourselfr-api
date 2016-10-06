@@ -35,7 +35,11 @@ const app = express()
 const http = require('http').Server(app)
 const io = require('socket.io')(http)
 
-var whitelist = ['http://localhost:3000', 'http://yourselfr.herokuapp.com']
+var whitelist = [
+	'http://localhost:3000',
+	'http://yourselfr.herokuapp.com',
+	'http://yoursel.fr'
+]
 var corsOptions = {
   origin: function(origin, callback){
     var originIsWhitelisted = whitelist.indexOf(origin) !== -1
