@@ -99,7 +99,7 @@ function removeAvatar (req, res) {
 }
 
 const getDefaultAvatar = () => {
-	var url = 'http://yourselfr.com/upload/default-avatar/'
+	var url = 'http://yoursel.fr/upload/default-avatar/'
 	var rand = tools.randNumber(1, 12)
 	var avatar = url + rand + '.jpg'
 	return avatar
