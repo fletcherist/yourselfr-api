@@ -28,7 +28,6 @@
     "express": "latest",
     "express-session": "latest",
     "formidable": "latest",
-    "lwip": "latest",
     "mongo": "latest",
     "mongojs": "latest",
     "mongoose": "latest",
