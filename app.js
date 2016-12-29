@@ -38,7 +38,8 @@ const io = require('socket.io')(http)
 var whitelist = [
 	'http://localhost:3000',
 	'http://yourselfr.herokuapp.com',
-	'http://yoursel.fr'
+	'http://yoursel.fr',
+  'http://95.85.6.26/'
 ]
 var corsOptions = {
   origin: function(origin, callback){
