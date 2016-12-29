@@ -140,11 +140,11 @@ var recountSubscriptions = function(req, res, next){
 	});
 };
 
-var cropAllBackgrounds = require('../upload/crop').cropAllBackgrounds;
-var cropBackgrounds = function (req, res) {
-	cropAllBackgrounds();
-	res.send({status: 1, message: 'Backgrounds are cropped!'});
-};
+// var cropAllBackgrounds = require('../upload/crop').cropAllBackgrounds;
+// var cropBackgrounds = function (req, res) {
+// 	cropAllBackgrounds();
+// 	res.send({status: 1, message: 'Backgrounds are cropped!'});
+// };
 
 var setPhotosForAllVKUsers = require('../vk/vkPhotos').setPhotosForAllVKUsers
 var setVKAvatars = (req, res) => {
@@ -202,5 +202,5 @@ module.exports = router;
 
 module.exports.fixPhotoPaths = fixPhotoPaths;
 module.exports.recountSubscriptions = recountSubscriptions;
-module.exports.cropBackgrounds = cropBackgrounds;
+// module.exports.cropBackgrounds = cropBackgrounds;
 module.exports.setVKAvatars = setVKAvatars;

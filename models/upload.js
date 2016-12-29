@@ -5,7 +5,6 @@ var router = express.Router()
 
 var fs = require('fs')
 var busboy = require('connect-busboy')
-var lwip = require('lwip')
 var Users = mongoose.model('users')
 var tools = require('./tools.js')
 

@@ -1,6 +1,5 @@
 var fs = require('fs')
 var busboy = require('connect-busboy')
-var lwip = require('lwip')
 var mongoose = require('mongoose')
 var Users = mongoose.model('users')
 var helpers = require('./helpers')

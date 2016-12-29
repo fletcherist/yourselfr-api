@@ -1,11 +1,10 @@
 /*jshint esversion: 6 */
 var fs = require('fs');
 var busboy = require('connect-busboy');
-var lwip = require('lwip');
 var mongoose = require('mongoose');
 var Users = mongoose.model('users');
 var helpers = require('./helpers');
-var crop = require('./crop');
+// var crop = require('./crop');
 var randomstring = require("randomstring");
 
 function uploadBackground (req, res) {
@@ -32,35 +31,35 @@ function uploadBackground (req, res) {
 		fstream = fs.createWriteStream(path);
 		file.pipe(fstream);
 		fstream.on('close', function () {
-			lwipTime(path, filename);
+			// lwipTime(path, filename);
 		});
 
-		var lwipTime = function(path, filename){
-			console.log('heha');
-			lwip.open(path, function(err, image){
-				if(err) throw err;
+		// var lwipTime = function(path, filename){
+		// 	console.log('heha');
+		// 	lwip.open(path, function(err, image){
+		// 		if(err) throw err;
 
-				var scale = 1;
-				if (image.width() > 800) {
-					scale = 0.7;
-				}
-				if (image.width() > 1400) {
-					scale = 0.6;
-				}
-				if (image.width() > 1800) {
-					scale = 0.5;
-				}
-				image.batch()
-					// .crop(800,800)
-					.scale(scale)
-					.writeFile(pathToWrite, 'jpg', {quality: 90} ,function(err){
-						if(err) throw err;
-						crop.cropBackground(filenameToWrite);
-						crop.makeLowQualityBlur(filenameToWrite);
-					});
-			});
-			finish();
-		};
+		// 		var scale = 1;
+		// 		if (image.width() > 800) {
+		// 			scale = 0.7;
+		// 		}
+		// 		if (image.width() > 1400) {
+		// 			scale = 0.6;
+		// 		}
+		// 		if (image.width() > 1800) {
+		// 			scale = 0.5;
+		// 		}
+		// 		image.batch()
+		// 			// .crop(800,800)
+		// 			.scale(scale)
+		// 			.writeFile(pathToWrite, 'jpg', {quality: 90} ,function(err){
+		// 				if(err) throw err;
+		// 				crop.cropBackground(filenameToWrite);
+		// 				crop.makeLowQualityBlur(filenameToWrite);
+		// 			});
+		// 	});
+		// 	finish();
+		// };
 
 		var finish = function(){
 			Users.findById(req.session.passport.user, function(err, user){
