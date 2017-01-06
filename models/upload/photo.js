@@ -5,6 +5,10 @@ var Users = mongoose.model('users');
 var helpers = require('./helpers');
 var tools = require('../tools.js');
 
+const CONFIG = require('../../config')
+const cloudinary = require('cloudinary')
+cloudinary.config(CONFIG.cloudinary)
+
 function uploadPhoto (req, res) {
 	var fstream;
 	req.pipe(req.busboy);
@@ -15,36 +19,40 @@ function uploadPhoto (req, res) {
 			return res.send({error:1, message:'image is not valid'});
 		}
 
-		var regex = new RegExp(/^(.*)\./);
-		var filename = filename.toString().replace(regex, tools.randNumber(1000000000000000,9999999999999999999) + ".");
-		var path = 'upload/photo/'+ filename;
+		const params = {
+			width: 640,
+			height: 480,
+			crop: 'fill',
+			gravity: 'face',
+			format: 'jpg',
+			quality: 'auto',
+			flags: 'progressive',
+			eager: {
+				crop: "fill",
+				width: 100,
+				height: 100,
+				gravity: 'face',
+				quality: 'auto',
+				format: 'jpg',
+				flags: "progressive",
+			}
+		}
+		const handleUpload = result => {
+			console.log(result)
+			Users.findById(req.session.passport.user, function(err, user){
+				if (!result || !result.url || !result.eager || !result.eager[0]) {
+					res.send({
+						error: 1,
+						status: 0,
+						message: 'Error while uploading. Try later..'
+					})
+				}
+				res.send({message:'image was uploaded',url:result.url})
+			})
+		}
 
-		fstream = fs.createWriteStream(path);
-		file.pipe(fstream);
-		fstream.on('close', function () {
-			// lwipTime(path, filename);
-		});
-
-		// var lwipTime = function(path, filename){
-		// 	lwip.open(path, function(err, image){
-		// 		if(err) throw err;
-
-		// 		var _imageProps = {
-		// 			width: image.width(),
-		// 			height: image.height()
-		// 		}
-		// 		var cropProp = _imageProps.width > _imageProps.height ? _imageProps.height : _imageProps.width;
-
-
-		// 		image.batch()
-		// 			// .crop(cropProp,cropProp)
-		// 			.scale(0.65)
-		// 			.writeFile(path, 'jpg', {quality: 90} ,function(err){
-		// 				if(err) throw err;
-		// 			});
-		// 	});
-		res.send({message:'image was uploaded',url:filename});
-		// }
+		const stream = cloudinary.uploader.upload_stream(handleUpload, params)
+		file.pipe(stream)
 	});
 }
 
