@@ -18,5 +18,10 @@ module.exports = {
 		apiSecret: 'qEBfFJGbF2JqjlvlPx5k2XhD8DWKuvbYuqyWf968zjdCpnsFVk',
 		ownerId: '729339351767887872'
 	},
-	port: 80
+	port: 80,
+	cloudinary: {
+		cloud_name: 'houn4pnlm',
+		api_key: '731783814288342',
+		api_secret: 'YP_5DwpW4OdLfX5iEU7bjVdbnJc'
+	}
 }

@@ -6,12 +6,10 @@ var helpers = require('./helpers')
 var randomstring = require("randomstring")
 var tools = require('../tools')
 
+const CONFIG = require('../../config')
+
 const cloudinary = require('cloudinary')
-cloudinary.config({
-	cloud_name: 'houn4pnlm',
-	api_key: '731783814288342',
-	api_secret: 'YP_5DwpW4OdLfX5iEU7bjVdbnJc'
-})
+cloudinary.config(CONFIG.cloudinary)
 
 
 function uploadAvatar (req, res) {
