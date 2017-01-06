@@ -6,6 +6,8 @@ var Users = mongoose.model('users')
 var helpers = require('./helpers')
 var randomstring = require("randomstring")
 
+const CONFIG = require('../../config')
+
 const cloudinary = require('cloudinary')
 cloudinary.config(CONFIG.cloudinary)
 
